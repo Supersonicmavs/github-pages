@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JILI Casino - Play & Win</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>JILI Casino</h1>
+    <nav>
+      <a href="#games">Games</a>
+      <a href="#promos">Promotions</a>
+      <a href="#signup">Sign Up</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Play JILI Slots and Win Big!</h2>
+    <p>Welcome bonus up to 100% on your first deposit!</p>
+    <a href="#signup" class="btn">Join Now</a>
+  </section>
+
+  <section id="games" class="game-gallery">
+    <h3>Popular Games</h3>
+    <div class="game-card">Golden Empire</div>
+    <div class="game-card">Super Ace</div>
+    <div class="game-card">Fortune Gems</div>
+  </section>
+
+  <section id="promos">
+    <h3>Promotions</h3>
+    <ul>
+      <li>Daily Cashback</li>
+      <li>Referral Bonus</li>
+      <li>Free Spins Every Week</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 JILI Casino. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+npm create vite@latest jili-casino -- --template react
+cd jili-casino
+npm install
+npm install tailwindcss framer-motion @radix-ui/react-dialog
+npm install @shadcn/ui react-hook-form zod
+npx tailwindcss init -p
+content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+theme: { extend: {} },
+plugins: [],
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+npm run dev
+import React, { useState } from "react"; import { Button } from "@/components/ui/button"; import { Card, CardContent } from "@/components/ui/card"; import { Input } from "@/components/ui/input"; import { motion } from "framer-motion";
+
+export default function HomePage() { const [showAuth, setShowAuth] = useState(false); const [isLogin, setIsLogin] = useState(true); const [showPayments, setShowPayments] = useState(false);
+
+const paymentMethods = [ "GCash", "GoTyme Bank", "PayMaya", "PayPal", "BPI", "BDO", "UnionBank", "Metrobank" ];
+
+return ( <main className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6"> <header className="flex items-center justify-between py-4 border-b border-gray-700"> <h1 className="text-3xl font-bold">JILI Casino</h1> <nav className="space-x-4"> <a href="#games" className="hover:text-yellow-400">Games</a> <a href="#promos" className="hover:text-yellow-400">Promotions</a> <Button onClick={() => setShowPayments(true)} className="bg-yellow-400 text-black">Deposit / Withdraw</Button> <Button className="bg-yellow-400 text-black" onClick={() => setShowAuth(true)}>Sign Up / Login</Button> </nav> </header>
+
+{showAuth && (
+    <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
+      <div className="bg-gray-900 p-6 rounded-xl w-full max-w-md space-y-4 shadow-lg">
+        <h2 className="text-xl font-bold mb-2 text-center">
+          {isLogin ? "Login to Your Account" : "Create an Account"}
+        </h2>
+        <Input type="email" placeholder="Email" className="bg-gray-800 border-gray-700" />
+        <Input type="password" placeholder="Password" className="bg-gray-800 border-gray-700" />
+        {!isLogin && <Input type="password" placeholder="Confirm Password" className="bg-gray-800 border-gray-700" />}
+        <Button className="w-full bg-yellow-400 text-black">
+          {isLogin ? "Login" : "Sign Up"}
+        </Button>
+        <p className="text-sm text-center text-gray-400">
+          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          <button onClick={() => setIsLogin(!isLogin)} className="text-yellow-400 hover:underline">
+            {isLogin ? "Sign up" : "Login"}
+          </button>
+        </p>
+        <Button variant="ghost" onClick={() => setShowAuth(false)} className="w-full text-red-400">
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )}
+
+  {showPayments && (
+    <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
+      <div className="bg-gray-900 p-6 rounded-xl w-full max-w-md space-y-4 shadow-lg">
+        <h2 className="text-xl font-bold mb-4 text-center">Choose Payment Method</h2>
+        <div className="grid grid-cols-2 gap-4">
+          {paymentMethods.map((method, index) => (
+            <Card key={index} className="bg-gray-800 hover:bg-gray-700 text-center py-4 cursor-pointer">
+              <CardContent>{method}</CardContent>
+            </Card>
+          ))}
+        </div>
+        <Button variant="ghost" onClick={() => setShowPayments(false)} className="w-full text-red-400">
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )}
+
+  <section className="text-center my-12">
+    <motion.h2
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="text-4xl font-extrabold mb-4"
+    >
+      Play JILI Slots and Win Big!
+    </motion.h2>
+    <p className="text-lg mb-6">Welcome bonus up to 100% on your first deposit!</p>
+    <Button className="bg-yellow-400 text-black px-6 py-2 text-lg" onClick={() => setShowAuth(true)}>Join Now</Button>
+  </section>
+
+  <section id="games" className="my-16">
+    <h3 className="text-2xl font-bold mb-6">Popular Games</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {['Golden Empire', 'Super Ace', 'Fortune Gems'].map((game, idx) => (
+        <Card key={idx} className="bg-gray-800 hover:bg-gray-700 cursor-pointer">
+          <CardContent className="p-6 text-center">
+            <h4 className="text-xl font-semibold">{game}</h4>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  </section>
+
+  <section id="promos" className="my-16">
+    <h3 className="text-2xl font-bold mb-4">Promotions</h3>
+    <ul className="list-disc pl-5 space-y-2">
+      <li>Daily Cashback</li>
+      <li>Referral Bonus</li>
+      <li>Free Spins Every Week</li>
+    </ul>
+  </section>
+
+  <footer className="mt-20 text-center border-t border-gray-700 pt-6">
+    <p>&copy; 2025 JILI Casino. All rights reserved.</p>
+  </footer>
+</main>
+
+); }
+npm create vite@latest jili-casino -- --template react
+cd jili-casino
+npm install
+npm install tailwindcss framer-motion @radix-ui/react-dialog
+npx tailwindcss init -p
+content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+export function Button({ className = "", ...props }) {
+  return (
+    <button
+      className={`rounded-2xl px-4 py-2 font-semibold shadow-md ${className}`}
+      {...props}
+    />
+  );
+}
+export function Input({ className = "", ...props }) {
+  return (
+    <input
+      className={`w-full rounded-xl bg-gray-900 px-3 py-2 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 ${className}`}
+      {...props}
+    />
+  );
+}
+export function Card({ children, className = "" }) {
+  return (
+    <div className={`rounded-2xl shadow-md p-4 ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+export function CardContent({ children, className = "" }) {
+  return <div className={className}>{children}</div>;
+}
+npm run dev
+cd path/to/jili-casino
+npm install
+npm run dev
+npm install
+npm run dev
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_secret_key
+npm install axios
+import axios from "axios";
+
+const API = axios.create({
+  baseURL: "http://localhost:5000/api", // Change if you deploy your backend
+});
+
+export default API;
+import API from "../lib/axios";
+
+const handleSignup = async () => {
+  try {
+    const res = await API.post("/auth/signup", { email, password });
+    console.log("Signed up:", res.data);
+    localStorage.setItem("token", res.data.token);
+  } catch (err) {
+    alert(err.response.data.error || "Signup failed");
+  }
+};
+
+const handleLogin = async () => {
+  try {
+    const res = await API.post("/auth/login", { email, password });
+    console.log("Logged in:", res.data);
+    localStorage.setItem("token", res.data.token);
+  } catch (err) {
+    alert(err.response.data.error || "Login failed");
+  }
+};
+const handleTransaction = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await API.post(
+      "/transactions",
+      {
+        userId: currentUser._id, // from login response
+        type: transactionType,
+        amount,
+        method,
+        reference,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("Transaction saved:", res.data);
+  } catch (err) {
+    console.error(err);
+    alert("Failed to process transaction");
+  }
+};
